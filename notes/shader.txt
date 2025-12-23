@@ -1,0 +1,20 @@
+We need to be able to program in the gpu.
+what colour should the triangle be
+
+
+All that stuff needs to be programmed so that is what shader helps us.
+There are two types of shader,
+
+1. VERTEX SHADERS
+-> where in your window will the vertex  will be
+-> used to pass data onto the next scene
+
+2. FRAGMANENT SHADERS OR PIXEL FRAGMENTS 
+
+
+
+
+
+3.  AND THERE ARE MUCH MORE
+
+
