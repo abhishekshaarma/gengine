@@ -10,7 +10,7 @@ There are two types of shader,
 -> used to pass data onto the next scene
 
 2. FRAGMANENT SHADERS OR PIXEL FRAGMENTS 
-
+ch
 
 
 
