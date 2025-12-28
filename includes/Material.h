@@ -26,7 +26,7 @@ namespace mygllib
                 throw MaterialError();
             }
         }
-        void set()
+      void set()
         {
             glMaterialfv(face_, GL_AMBIENT, ambient());
             glMaterialfv(face_, GL_DIFFUSE, diffuse());

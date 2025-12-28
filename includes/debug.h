@@ -3,10 +3,11 @@
 
 #include <iostream>
 
+
+
 class OpenGLError
 {};
-inline
-void debug(const char * filename, int line_no)
+inline void debug(const char * filename, int line_no)
 {
     GLenum err;
     bool halt = false;
@@ -19,9 +20,11 @@ void debug(const char * filename, int line_no)
     }
     if (halt) throw OpenGLError();
 }
-inline
-void DEBUG()
+
+inline void DEBUG()
 {
     debug(__FILE__, __LINE__);
 }
+
+
 #endif

@@ -15,6 +15,24 @@
 #include <sstream>
 
 #include <fstream>
+#include "VertexBuffer.h"
+#include "IndexBuffer.h"
+#include "VertexArray.h"
+unsigned int vao;
+
+unsigned int indices[] =
+{
+    0 , 1, 2,
+    3 , 2, 0
+}; 
+float position[18] =
+{
+    -0.5f,  -0.5f, 0.0f, //1
+    0.5f, -0.5f, 0.0f,   // 2
+    0.5f, 0.5f, 0.0f,    // 3
+    -0.5f,  0.5f, 0.0f,  // 4
+};
+
 
 struct ShaderSource
 {
@@ -25,6 +43,10 @@ struct ShaderSource
 static ShaderSource ParseShader(const std::string &pathname)
 {
     std::ifstream stream(pathname);
+
+    if (!stream)
+        throw std::runtime_error("Failed to open shader file");
+
 
     enum class ShaderType
     {
@@ -66,7 +88,7 @@ static unsigned int CompileShader(unsigned int type, const std::string source)
 {
     unsigned int id = glCreateShader(type);
 
-    // returns a pointer ti the begingi of the sring[] src = &source[0] basically
+    // returns a pointer to the begingi of the sring[] src = &source[0] basically
     const char* src = source.c_str(); 
 
     // if length is null each string is actually nullterminated 
@@ -149,20 +171,14 @@ void init()
     // -------------------------------
     // Create VBO ONCE
     // -------------------------------
-    float position[9] =
-        {
-            0.0f, 0.0f, 1.0f,
-            1.0f, 0.0f, 2.0f,
-            0.0f, 1.0f, 1.0f
-        };
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
     
-    glGenBuffers(1, &vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(position), position, GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
 }
 
-void display()
+inline void display()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -176,26 +192,39 @@ void display()
 
     glEnableClientState(GL_VERTEX_ARRAY);
     
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0 , 2, GL_FLOAT, 0, sizeof(float) * 2, (const void*)0);
+    VertexArray va;
+    VertexBuffer vb(position, 4*2 * sizeof(float));
+    VertexBufferLayout layout;
+    layout.Push<float>(2);
+    va.addBuffer(vb, layout);
 
-    ShaderSource source = ParseShader("res/shader/Basic.shader");
-
-    std::cout << source.VertexSource << std::endl;
-    std::cout << "asdasd" << std::endl;
-    std::cout << source.FragmentSource << std::endl;
+    IndexBuffer ib(indices, 6);
+    
+    
+    ShaderSource source = ParseShader("shader/Basic.shader");
 
    
     unsigned int shader = CreateShader(source.VertexSource, source.FragmentSource);
-     glUseProgram(shader);
+    glUseProgram(shader);
+
+    int location = glGetUniformLocation(shader, "u_Color");
 
 
     
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    
+    DEBUG();
+    glUniform4f(location, 0.2f,0.50f , 1.0f, 1.0f);
+
+    va.Bind();
+    ib.Bind();
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
+    
+    DEBUG();
+    // glDrawArrays(GL_TRIANGLES, 0, 6);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glDisableClientState(GL_VERTEX_ARRAY);
-
+     
     glPopMatrix();
 
     glutSwapBuffers();
@@ -225,3 +254,11 @@ int main(int argc, char** argv)
     glutMainLoop();
     return 0;
 }
+
+/*
+  1. uniforms are set per draw,
+  you can set a uniform up before the draw
+
+  12. VertexArray
+  
+*/
