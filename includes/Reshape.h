@@ -1,5 +1,3 @@
-// File  : Reshape.h
-// Author: smaug
 
 #ifndef RESHAPE_H
 #define RESHAPE_H

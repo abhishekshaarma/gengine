@@ -1,11 +1,10 @@
 // File  : Keyboard.cpp
 // Author: smaug
 
-#include <GL/freeglut.h>
 #include "View.h"
 #include "SingletonView.h"
 #include "Keyboard.h"
-
+#include "Reshape.h"
 void mygllib::Keyboard::keyboard(unsigned char key, int w, int h)
 {
     mygllib::View & view = *(mygllib::SingletonView::getInstance());
