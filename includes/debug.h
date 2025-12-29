@@ -1,8 +1,11 @@
 #ifndef DEBUG_H
 #define DEBUG_H
 
-#include <iostream>
+#pragma once
+#include <GL/glew.h>
+#include <GL/glu.h>
 
+#include <iostream>
 
 
 class OpenGLError
