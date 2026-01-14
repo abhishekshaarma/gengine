@@ -115,8 +115,6 @@ inline void display()
  
     
     DEBUG();
-    // glDrawArrays(GL_TRIANGLES, 0, 6);
-    glDisableClientState(GL_VERTEX_ARRAY);
      
     glPopMatrix();
 
