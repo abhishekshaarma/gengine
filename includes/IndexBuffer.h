@@ -11,8 +11,8 @@ class IndexBuffer
     IndexBuffer(const unsigned int* data, unsigned int count);
     ~IndexBuffer();
 
-    void Bind();
-    void Unbind();
+    void Bind() const;
+    void Unbind() const ;
     inline unsigned int const getCount()
     {
         return count_;

@@ -5,7 +5,8 @@
 
 class Renderer
 {
-  public:
-    void draw(VertexArray &vs, const IndexBuffer &ib, const Shader& shader) const;
+public:
+    void draw(VertexArray &va, const IndexBuffer &ib, const Shader& shader) const;
+    void Clear();
     
 };
