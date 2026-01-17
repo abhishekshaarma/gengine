@@ -14,7 +14,7 @@
 
 // insert a template with type name R and r col decplaces and spaing 
 template < typename T, int R, int C, int DEC_PLACES=6, int SPACING=1 >
-    void pprint_mat(const T & m)
+void pprint_mat(const T & m)
 {
     int widths[C] = {0};
     for (int c = 0; c < C; ++c)
@@ -45,49 +45,49 @@ template < typename T, int R, int C, int DEC_PLACES=6, int SPACING=1 >
         if (r < R - 1) std::cout << '\n';
     }
 }
-    template < typename T, int R, int C=1, int DEC_PLACES=6, int SPACING=1 >
-    void pprint_vec(const T & m)
+template < typename T, int R, int C=1, int DEC_PLACES=6, int SPACING=1 >
+void pprint_vec(const T & m)
+{
+    int widths[C] = {0};
+    for (int c = 0; c < C; ++c)
     {
-        int widths[C] = {0};
-        for (int c = 0; c < C; ++c)
-        {
-            for (int r = 0; r < R; ++r)
-            {
-                std::ostringstream sscout;
-                sscout << std::fixed << std::setprecision(DEC_PLACES)
-                       << m[r];
-                int len = sscout.str().length();
-                if (len > widths[c]) widths[c] = len;
-            }
-        }
-        std::string x = "";
-        std::cout << '[';
         for (int r = 0; r < R; ++r)
         {
-            std::cout << x; x = " ";
-            std::cout << '[';
-            for (int c = 0; c < C; ++c)
-            {
-                std::cout << std::setw(widths[c])
-                          << std::fixed << std::setprecision(DEC_PLACES)
-                          << m[r];
-                if (c < C - 1) std::cout << std::setw(SPACING) << ' ';
-            }
-            std::cout << ']';
-            if (r == R - 1) std::cout << ']';
-            if (r < R - 1) std::cout << '\n';
+            std::ostringstream sscout;
+            sscout << std::fixed << std::setprecision(DEC_PLACES)
+                   << m[r];
+            int len = sscout.str().length();
+            if (len > widths[c]) widths[c] = len;
         }
     }
-    //=============================================================================
-    // Printing for matrices
-    //=============================================================================
-        inline
-        std::ostream & operator<<(std::ostream & cout, const glm::mat4 & m)
+    std::string x = "";
+    std::cout << '[';
+    for (int r = 0; r < R; ++r)
+    {
+        std::cout << x; x = " ";
+        std::cout << '[';
+        for (int c = 0; c < C; ++c)
         {
-//pprint_mat< glm::mat4, 4, 4 >(m);
-            cout << glm::to_string(m);
-            return cout;
+            std::cout << std::setw(widths[c])
+                      << std::fixed << std::setprecision(DEC_PLACES)
+                      << m[r];
+            if (c < C - 1) std::cout << std::setw(SPACING) << ' ';
         }
+        std::cout << ']';
+        if (r == R - 1) std::cout << ']';
+        if (r < R - 1) std::cout << '\n';
+    }
+}
+//=============================================================================
+// Printing for matrices
+//=============================================================================
+inline
+std::ostream & operator<<(std::ostream & cout, const glm::mat4 & m)
+{
+//pprint_mat< glm::mat4, 4, 4 >(m);
+    cout << glm::to_string(m);
+    return cout;
+}
 inline
 std::ostream & operator<<(std::ostream & cout, const glm::mat3 & m)
 {
